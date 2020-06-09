@@ -63,18 +63,18 @@ def getMask(mask_path):
     return
 
 
-def removeBG(mask_path, stylized_img_path, original_img_path, target_path="./final.png"):
+def removeBG(mask_path, stylized_img_path, original_img_path, target_path="outputs/"):
     h, w, _ = cv2.imread(mask_path).shape
     img = np.clip(cv2.resize(stylized_img_path, (w, h)), 0, 255).astype(np.uint8)
     getMask(mask_path)
-    mask = cv2.resize(cv2.imread("./tmp.png", 0), (w, h))
+    mask = cv2.resize(cv2.imread(mask_path, 0), (w, h))
     img_1 = cv2.resize(cv2.imread(original_img_path), (w, h))
 
     invermask = cv2.bitwise_not(mask)
 
     res = cv2.bitwise_and(img, img, mask=mask)
     res2 = cv2.bitwise_and(img_1, img_1, mask=invermask)
-    cv2.imwrite(target_path, res + res2)
+    cv2.imwrite('WCT/outputs/mask1_0resize.jpg', res + res2)
     return
 
 
